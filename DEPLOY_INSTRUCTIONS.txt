@@ -1,0 +1,12 @@
+FishSafe integration changes (2026-10-24)
+
+1. Your Supabase SQL tables must already exist as created in SQL Editor.
+2. Vercel > Project > Settings > Environment Variables: set DATABASE_URL to your Supabase Session Pooler URI (password URL-encoded). Redeploy. Never commit credentials.
+3. If you set FISHSAFE_DEVICE_KEY on Vercel, put the identical key in DEVICE_KEY in fishsafe_esp32.ino. This protects the device endpoint only; other site/API endpoints still need access control before public use.
+4. In firmware change WIFI_SSID, WIFI_PASSWORD, SERVER_URL to https://YOUR-VERCEL-DOMAIN/api/sensor-reading, and SAMPLE_ID to a registered sample. ESP32 HTTPS certificate validation is not configured in this firmware; for secure public deployment configure TLS verification before transmitting sensitive data.
+5. Arduino libraries: Adafruit TCS34725, ArduinoJson 6, Adafruit GFX, Adafruit SSD1306. ESP32 core WiFi and HTTPClient.
+6. OLED SSD1306 I2C: SDA=GPIO21 SCL=GPIO22 VCC=3.3V if supported GND=GND. TCS34725 shares same bus. OLED address assumed 0x3C.
+7. Red LED GPIO25 -> 330 ohm -> LED anode, cathode GND. Green LED GPIO27 likewise. Button GPIO33 -> GND. No white LED; GPIO26 unused. Buzzer GPIO32 requires a driver appropriate to buzzer type/current.
+8. LEDs remain off unless the server returns Flagged or Not Flagged. Uncalibrated/demo classification must not be interpreted as a verified chemical result. Without stable lighting, readings may be unreliable.
+9. Important: previous uploaded ZIP included a virtual environment; it has been excluded from this cleaned ZIP.
+10. Rotate any database password exposed in chat and update Vercel.
